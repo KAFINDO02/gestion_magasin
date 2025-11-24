@@ -1,44 +1,34 @@
-import java.util.Scanner;
+public class Electromenager extends ProduitElectronique {
+    private String classeEnergie;
+    private int puissance;
+    private String typeAlimentation;
 
-public class Electromenager {
-    public String nom;
-    public int codeproduit;
-    public float poids;
-    protected String marque;
-    public float prix;
+    public Electromenager(int codeproduit, String nom, String marque,
+                          double prix, int poids, int garantisMois, int QuantiteStock,
+                          String classeEnergie, String typeAlimentation, int puissance) {
 
-    public Electromenager(int codeProduit, String nom, String marque,
-                          float prix, int poids) {
-        this.codeproduit = codeproduit;
-        this.nom = nom;
-        this.marque = marque;
-        this.prix = prix;
-        this.poids = poids;
 
-    }
-    public Electromenager(){}
-    public int getCodeproduit() {return codeproduit; }
-    public void setCodeproduit(int codeproduit){
-        this.codeproduit = codeproduit;
+        super(codeproduit, nom, marque,  prix, poids, garantisMois, QuantiteStock);
+                this.classeEnergie = classeEnergie;
+                    this.puissance = puissance;
+                        this.typeAlimentation = typeAlimentation;
     }
 
-    public String getNom(){return nom;}
-    public void setNom(String nom){this.nom = nom;}
-
-
-    public String getMarque(){return marque; }
-    public void setMarque(String marque){
-        this.marque = marque;
+    public double calculerconsommation() {
+        return(puissance / 1000.0);
+    }
+    @Override
+    public void AfficherDetails() {
+        super.AfficherDetails();
+        calculerconsommation();
+        System.out.println("\nPuissance (W):"+puissance);
+        System.out.println("\nClasse Energie:"+classeEnergie);
+        System.out.println("\nType Alimentation:"+typeAlimentation);
     }
 
-    public float getprix() {return prix; }
-    public void setprix(float prix){
-        this.prix = prix;
-    }
-
-    public float getPoids() {return poids; }
-    public void setPoids(float poids){
-        this.poids = poids;
+    @Override
+    public int getafficherProduit() {
+        return 0;
     }
 }
 

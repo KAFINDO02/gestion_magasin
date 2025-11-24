@@ -1,83 +1,101 @@
+import com.sun.source.tree.ContinueTree;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
 public class Main {
+
     public static void main(String[] args) {
-        ProduitElectronique pro1 = new ProduitElectronique(
-                0,
-                "téléphone",
-                "tecno",
-                1,
-                12);
+        ArrayList<ProduitElectronique> produits = new ArrayList<>();
+        Stockmanager manager = new Stockmanager(produits);
 
-
-        Electromenager ElecPro1 = new Electromenager(
-                1,
+        produits.add(new Electromenager(
+                01,
                 "Aspirateur",
-                "Philis",
-                350,
-                20);
-
-        EquipementInformatique Equip1 = new EquipementInformatique(
-                6,
-                "telephone",
-                "tecno",
-                50,
-                01);
-
-        Accessoires Acc1 = new Accessoires(
-                3,
+                "Techno",
+                100.2,
+                10,
+                2,
+                2,
+                "electrique",
                 "chargeur",
-                "itel",
-                1,
-                1);
+                20));
+        produits.add(new EquipementInformatique(
+                02,
+                "SSD",
+                "Itel",
+                200,
+                3,
+                3,
+                2,
+                632,
+                40,
+                "ccc"
+
+                ));
+        produits.add(new Accessoires(
+                03,
+                "cable",
+                "tecno",
+                2000,
+                5,
+                2,
+                10,
+                "type C",
+                "portable"
+                ));
+
 
         Scanner entree = new Scanner(System.in);
-        System.out.println("''Equipement du stock''");
-        System.out.println(
-                "\n1. Produit Electronique" +
-                        "\n2. Equipement informatique" +
-                        "\n3. Electro Menager" +
-                        "\n4. Accessoires");
-        System.out.println("Faite un choix: ");
-        int choix = entree.nextInt();
 
-        if (choix == 1) {
-            System.out.println(
-                    "\nnom:" + pro1.nom +
-                            "\nmarque:" + pro1.marque +
-                            "\nprix:" + pro1.prix + "$" +
-                            "\npoids:" + pro1.poids + "Kg");
+        {
+            System.out.println("''==MENU DE GESTION==''");
+            System.out.println("\n1. Ajouter un produit" +
+                    "\n2. Afficher tous les produits" +
+                    "\n3. Modifier un produit" +
+                    "\n4. Supprimer un produit" +
+                    "\n5.Quitter");
+            System.out.println("Faite un choix: ");
+
+            int choix = entree.nextInt();
+            while (choix != 5) break;
 
 
-        } else if (choix == 2) {
 
-            System.out.println(
-                    "\ncode produit:" + Equip1.codeproduit +
-                            "\nnom:" + Equip1.nom +
-                            "\nmarque:" + Equip1.marque +
-                            "\nprix:" + Equip1.prix + "$" +
-                            "\npoids:" + Equip1.poids + "Kg");
-        } else if (choix == 3) {
+            if (choix == 1) {
+                manager.ajouterProduit();
+            } else if (choix == 2) {
+                System.out.println("\n1. Elecromenqger" +
+                        "\n2. Equipement Informatique"+
+                        "\n3. Accessoires Electronique");
+                System.out.println("Faite un choix à afficher: ");
 
-            System.out.println(
-                    "\ncode produit:" + ElecPro1.codeproduit +
-                            "\nnom:" + ElecPro1.nom +
-                            "\nmarque:" + ElecPro1.marque +
-                            "\nprix:" + ElecPro1.prix + "$" +
-                            "\npoids:" + ElecPro1.poids + "Kg");
-        } else if (choix == 4) {
-            System.out.println(
-                    "\ncode produit:" + Acc1.codeproduit +
-                            "\nnom:" + Acc1.nom +
-                            "\nmarque:" + Acc1.marque +
-                            "\nprix:" + Acc1.prix + "$" +
-                            "\npoids:" + Acc1.poids + "Kg");
+                Scanner sc = new Scanner(System.in);
+                int choix2 = sc.nextInt();
 
-        } else {
-            System.out.println("ce choix n'est pas disponible");
+                while (choix2 != 3) break;
+                if (choix2 == 1) {
+                    manager.afficherProduit();
+                }else if (choix2 == 2) {
+                    manager.afficherProduit();
+                }else if (choix2 == 3) {
+                    manager.afficherProduit();
+                }
+
+
+            } else if (choix == 3) {
+                manager.modifierProduit();
+            } else if (choix == 4) {
+                manager.supprimerProduit();
+            } else if (choix == 5) {
+                System.out.println("Fermeture du programme...");
+            } else if (choix !=5){
+                System.out.println("choix invalide, réessayer.");
+
+            }
+
+
         }
-
     }
-
 }
 

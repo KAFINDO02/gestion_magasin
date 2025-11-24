@@ -1,39 +1,31 @@
-public class EquipementInformatique {
-    public String nom;
-    public int codeproduit;
-    public float poids;
-    protected String marque;
-    public float prix;
+public class EquipementInformatique extends ProduitElectronique{
+    private int memoire;
+    private int capStock;
+    private String processeur;
 
-    public EquipementInformatique (int codeproduit, String nom, String marque,
-                                   float prix, int poids ) {
-        this.codeproduit = codeproduit;
-        this.nom = nom;
-        this.marque = marque;
-        this.prix = prix;
-        this.poids = poids;
-
-    }
-    public EquipementInformatique(){}
-    public int getcodeproduit() {return codeproduit; }
-    public void setcodeproduit(int codeproduit){
-        this.codeproduit = codeproduit;
-    }
-    public String getnom(){return nom;}
-    public void setnom(String nom){this.nom = nom;}
-
-    public String getMarque(){return marque; }
-    public void setMarque(String marque){
-        this.marque = marque;
-    }
-    public float getprix() {return prix; }
-    public void setprix(float prix){
-        this.prix = prix;
-    }
-    public float getPoids() {return poids; }
-    public void setPoids(float poids){
-        this.poids = poids;
+    public EquipementInformatique(int codeproduit, String nom, String marque,
+                                  double prix, int poids, int garantisMois,
+                                  int QuantiteStock, int memoire, int capStock, String processeur ) {
+        super(codeproduit, nom, marque, prix, poids, garantisMois,
+                QuantiteStock);
+                    this.memoire = memoire;
+                        this.capStock = capStock;
+                            this.processeur = processeur;
     }
 
+    public void AfficherConfig(){
+        System.out.println("\nMemoire RAM:"+memoire+"Go");
+        System.out.println("\nStockage:"+capStock+"Go");
+        System.out.println("\nProcesseur:"+processeur);
+    }
+    @Override
+    public void AfficherDetails(){
+        super.AfficherDetails();
+        AfficherConfig();
+    }
 
+    @Override
+    public int getafficherProduit() {
+        return 0;
+    }
 }

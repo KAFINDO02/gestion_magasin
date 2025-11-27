@@ -1,0 +1,190 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class GestionStockMagazin implements Crud{
+
+    private final ArrayList<ProduitElectronique> stock = new ArrayList<>();
+    private final Scanner sc = new Scanner(System.in);
+
+    public GestionStockMagazin() {
+        stock.addAll(Stockmanager.getStock());
+    }
+
+    public void ajouterProduit() {
+        System.out.println("\n=== AJOUT D’UN PRODUIT ===");
+
+        System.out.print("Code produit: ");
+        String codeproduit = sc.nextLine().trim();
+        System.out.print("Nom produit: ");
+        String nom = sc.nextLine().trim();
+        System.out.print("Marque: ");
+        String marque = sc.nextLine().trim();
+        double prix = lireDouble("Prix: ");
+        int quantiteStock = lireInt("Quantité: ");
+
+        System.out.println("Type: 1=Electroménager | 2=Informatique | 3=Accessoire");
+        int type = lireInt("Votre choix: ");
+
+        if (type == 1) {
+            int puissance = lireInt("Puissance(W): ");
+            String classeEnergie = saisieString("Consommation(kWh): ");
+            String typeAlimentation = saisieString("Catégorie: ");
+            stock.add(new Electromenager(nom, codeproduit, marque, prix, quantiteStock, puissance, classeEnergie, typeAlimentation));
+        }
+        else if (type == 2) {
+            String typeMat = saisieString("Type matériel: ");
+            String systeme = saisieString("Système: ");
+            int stockage = lireInt("Stockage(Go): ");
+            stock.add(new EquipementInformatique(nom, codeproduit, marque, prix, quantiteStock, typeMat, systeme, stockage));
+        }
+        else if (type == 3) {
+            String compat = saisieString("Compatibilité: ");
+            int garantie = lireInt("Garantie(mois): ");
+            String couleur = saisieString("Couleur: ");
+            stock.add(new Accessoires(nom, codeproduit, marque, prix, quantiteStock, compat, garantie, couleur) {
+                @Override
+                public void getStock(int qte) {
+
+                }
+
+                @Override
+                public void setQuantite(int i) {
+
+                }
+
+                @Override
+                public void setgarantieMois(int i) {
+
+                }
+
+                @Override
+                public void setStockage(int i) {
+
+                }
+
+                @Override
+                public void setSysteme(String trim) {
+
+                }
+
+                @Override
+                public void setType(String trim) {
+
+                }
+
+                @Override
+                public void setpuissance(int i) {
+
+                }
+
+                @Override
+                public void setmarque(String trim) {
+
+                }
+
+                @Override
+                public void setprix(double v) {
+
+                }
+
+                @Override
+                public void setnom(String nom) {
+
+                }
+
+                @Override
+                public String getCodeProduit() {
+                    return "";
+                }
+
+                @Override
+                public String toFileString() {
+                    return "";
+                }
+
+                @Override
+                public void setConsommation(int consommation) {
+
+                }
+            });
+        }
+        else {
+            System.out.println(" Type invalide !");
+            return;
+        }
+
+        saveToFile();
+        System.out.println(" Produit ajouté !");
+    }
+
+    @Override
+    public int afficherProduit() {
+        return 0;
+    }
+
+    @Override
+    public void modifierProduit() {
+
+    }
+
+
+    public void supprimerProduit() {
+        String code = saisieString("Code produit à supprimer: ");
+        boolean supprime = stock.removeIf(p -> p.getCodeProduit().equalsIgnoreCase(code));
+        if (supprime) {
+            saveToFile();
+            System.out.println(" Produit supprimé !");
+        } else System.out.println("Produit non trouvé !");
+    }
+
+
+    public void rechercherProduit() {
+        String code = saisieString("Code produit à rechercher: ");
+        ProduitElectronique p = stock.stream()
+                .filter(prod -> prod.getCodeProduit().equalsIgnoreCase(code))
+                .findFirst().orElse(null);
+        if (p != null) p.afficherDetails();
+        else System.out.println(" Produit non trouvé !");
+    }
+
+
+    public void afficherTousLesProduits() {
+        if (stock.isEmpty()) {
+            System.out.println("Aucun produit en stock.");
+            return;
+        }
+        System.out.println("\n=== LISTE DES PRODUITS ===");
+        stock.forEach(p -> { p.afficherDetails(); System.out.println("----------------"); });
+    }
+
+
+    public void saveToFile() {
+        try (FileWriter writer = new FileWriter("stock.txt")) {
+            for (ProduitElectronique p : stock) writer.write(p.toFileString() + "\n");
+        } catch (IOException e) {
+            System.out.println("Erreur sauvegarde fichier !");
+        }
+    }
+
+
+    private int lireInt(String msg) {
+        while (true) {
+            try { System.out.print(msg); return Integer.parseInt(sc.nextLine().trim()); }
+            catch (NumberFormatException e) { System.out.println("Entrez un nombre valide !"); }
+        }
+    }
+
+    private double lireDouble(String msg) {
+        while (true) {
+            try { System.out.print(msg); return Double.parseDouble(sc.nextLine().trim()); }
+            catch (NumberFormatException e) { System.out.println(" Entrez un nombre valide !"); }
+        }
+    }
+
+    private String saisieString(String msg) {
+        System.out.print(msg);
+        return sc.nextLine().trim();
+    }
+}
